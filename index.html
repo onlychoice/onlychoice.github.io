@@ -9,7 +9,7 @@
   <meta name="author" content="Zhihui Jiao">
 
   
-  <meta name="description" content="do_connect(State = #conn{host = Host, port = Port, server_index = ServerIndex, protocol = Protocol, worker = Worker}) -> case connect(Host, Port) of &hellip;">
+  <meta name="description" content="Blog Archives About Me Coder, focus on server end programming. Email: jzhihui521@gmail.com Recent Posts Categories Recent Comments <script type=" &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,116 +68,6 @@
       <div class="blog-index">
   
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/26/blog-entry-two/">Blog Entry Two</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-26T11:06:00+08:00" pubdate data-updated="true">Aug 26<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/08/26/blog-entry-two/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre class="prettyprint linenums lang-erlang">
-do_connect(State = #conn{host = Host, port = Port, server_index = ServerIndex,
-                         protocol = Protocol, worker = Worker}) ->
-    case connect(Host, Port) of
-        {ok, Sock} ->
-            {ok, BackendReader} = rabbit_proxy_reader:start_link(Sock, self(),
-                                                                 Protocol,
-                                                                 ServerIndex),
-            gen_tcp:controlling_process(Sock, BackendReader),
-            Worker ! {connection_created, ServerIndex, self()},
-            State#conn{sock = Sock, backend_reader = BackendReader};
-        {error, _Reason} ->
-            %% try again after 30 minutes
-            erlang:send_after(?LONGER_SLEEP_TIME, self(), reconnect),
-            State#conn{sock = none}
-    end.
-</pre>
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/25/blog-entry-for-plugin-test/">Blog Entry for Plugin Test</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-25T22:29:00+08:00" pubdate data-updated="true">Aug 25<span>th</span>, 2013</time>
-        
-         | <a href="/blog/2013/08/25/blog-entry-for-plugin-test/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><pre class="prettyprint linenums lang-erlang">
-do_connect(State = #conn{host = Host, port = Port, server_index = ServerIndex,
-                         protocol = Protocol, worker = Worker}) ->
-    case connect(Host, Port) of
-        {ok, Sock} ->
-            {ok, BackendReader} = rabbit_proxy_reader:start_link(Sock, self(),
-                                                                 Protocol,
-                                                                 ServerIndex),
-            gen_tcp:controlling_process(Sock, BackendReader),
-            Worker ! {connection_created, ServerIndex, self()},
-            State#conn{sock = Sock, backend_reader = BackendReader};
-        {error, _Reason} ->
-            %% try again after 30 minutes
-            erlang:send_after(?LONGER_SLEEP_TIME, self(), reconnect),
-            State#conn{sock = none}
-    end.
-</pre>
-
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -195,19 +85,11 @@ do_connect(State = #conn{host = Host, port = Port, server_index = ServerIndex,
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
-      <li class="post">
-        <a href="/blog/2013/08/26/blog-entry-two/">Blog Entry Two</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/08/25/blog-entry-for-plugin-test/">Blog Entry for Plugin Test</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>Categories</h1>
-<span class='categories_tag'><a href='/blog/categories/abc/' style='font-size: 160.0%'>abc(1)</a> <a href='/blog/categories/rabbit-test/' style='font-size: 160.0%'>rabbit_test(1)</a> <a href='/blog/categories/test/' style='font-size: 160.0%'>test(1)</a> </span>
+<span class='categories_tag'></span>
 </section>
 <section id="comment_sidebar">
 <h1>Recent Comments</h1>
