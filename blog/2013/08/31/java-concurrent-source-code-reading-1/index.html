@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>SHOW ME THE CODE</title>
+  <title>Java并发源码分析 - 锁 - SHOW ME THE CODE</title>
   <meta name="author" content="Zhihui Jiao">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://onlychoice.github.io">
+  <link rel="canonical" href="http://onlychoice.github.io/blog/2013/08/31/java-concurrent-source-code-reading-1">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/prettify.css"  rel="stylesheet" type="text/css">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -78,15 +78,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/08/31/java-concurrent-source-code-reading-1/">Java并发源码分析 - 锁</a></h1>
+      <h1 class="entry-title">Java并发源码分析 - 锁</h1>
     
     
       <p class="meta">
@@ -104,14 +101,14 @@
 
 <time datetime="2013-08-31T16:07:00+08:00" pubdate data-updated="true">Aug 31<span>st</span>, 2013</time>
         
-         | <a href="/blog/2013/08/31/java-concurrent-source-code-reading-1/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p>（注：文章里涉及到的代码分析，基于jdk1.7.0_10 Hotspot 64-Bit）</p>
+<div class="entry-content"><p>（注：文章里涉及到的代码分析，基于jdk1.7.0_10 Hotspot 64-Bit）</p>
 
 <h2>基本概念</h2>
 
@@ -679,26 +676,66 @@ public final boolean releaseShared(int arg);
 
 <p>任务执行完成后，会将state设置成2（正常完成或者出现异常）或者4（任务被取消）：innerIsDone方法在这两种情况下都会返回true。</p>
 </div>
+
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Zhihui Jiao</span></span>
+
+      
+
+
+
+
+
+
+
+
   
 
 
-    </article>
+<time datetime="2013-08-31T16:07:00+08:00" pubdate data-updated="true">Aug 31<span>st</span>, 2013</time>
+      
+
+<span class="categories">
   
-  <div class="pagination">
+    <a class='category' href='/blog/categories/concurrent/'>concurrent</a>, <a class='category' href='/blog/categories/java/'>java</a>, <a class='category' href='/blog/categories/lock/'>lock</a>
+  
+</span>
+
+
+    </p>
     
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://onlychoice.github.io/blog/2013/08/31/java-concurrent-source-code-reading-1/" data-via="zhjiao" data-counturl="http://onlychoice.github.io/blog/2013/08/31/java-concurrent-source-code-reading-1/" >Tweet</a>
+  
+  
+  
 </div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
 <aside class="sidebar">
   
     <section>
-  <h1>About Me</h1>
-  <p>Coder, focus on server end programming.</p>
-  <p>Email: jzhihui521@gmail.com</p>
-</section>
-<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
@@ -724,6 +761,7 @@ public final boolean releaseShared(int arg);
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -738,7 +776,10 @@ public final boolean releaseShared(int arg);
       var disqus_shortname = 'onlychoice';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://onlychoice.github.io/blog/2013/08/31/java-concurrent-source-code-reading-1/';
+        var disqus_url = 'http://onlychoice.github.io/blog/2013/08/31/java-concurrent-source-code-reading-1/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

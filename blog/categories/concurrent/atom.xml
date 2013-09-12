@@ -1,117 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>SHOW ME THE CODE</title>
-  <meta name="author" content="Zhihui Jiao">
-
-  
-  <meta name="description" content="（注：文章里涉及到的代码分析，基于jdk1.7.0_10 Hotspot 64-Bit） 基本概念 Java同步机制除了内置的synchronized（包含Object.wait/notify）以外，还通过concurrent包提供了多种锁，包含ReentrantLock、Semaphore、 &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><![CDATA[Category: concurrent | SHOW ME THE CODE]]></title>
+  <link href="http://onlychoice.github.io/blog/categories/concurrent/atom.xml" rel="self"/>
+  <link href="http://onlychoice.github.io/"/>
+  <updated>2013-09-12T21:26:41+08:00</updated>
+  <id>http://onlychoice.github.io/</id>
+  <author>
+    <name><![CDATA[Zhihui Jiao]]></name>
+    <email><![CDATA[jzhihui521@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-  <link rel="canonical" href="http://onlychoice.github.io">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/prettify.css"  rel="stylesheet" type="text/css">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
-  <link href="/atom.xml" rel="alternate" title="SHOW ME THE CODE" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <script src="/javascripts/prettify/run_prettify.js"></script>
-  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-33359382-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">SHOW ME THE CODE</a></h1>
-  
-    <h2>记录技术点滴</h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:onlychoice.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div class="blog-index">
-  
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/08/31/java-concurrent-source-code-reading-1/">Java并发源码分析 - 锁</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-08-31T16:07:00+08:00" pubdate data-updated="true">Aug 31<span>st</span>, 2013</time>
-        
-         | <a href="/blog/2013/08/31/java-concurrent-source-code-reading-1/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>（注：文章里涉及到的代码分析，基于jdk1.7.0_10 Hotspot 64-Bit）</p>
+  <entry>
+    <title type="html"><![CDATA[Java并发源码分析 - 锁]]></title>
+    <link href="http://onlychoice.github.io/blog/2013/08/31/java-concurrent-source-code-reading-1/"/>
+    <updated>2013-08-31T16:07:00+08:00</updated>
+    <id>http://onlychoice.github.io/blog/2013/08/31/java-concurrent-source-code-reading-1</id>
+    <content type="html"><![CDATA[<p>（注：文章里涉及到的代码分析，基于jdk1.7.0_10 Hotspot 64-Bit）</p>
 
 <h2>基本概念</h2>
 
@@ -678,94 +585,7 @@ public final boolean releaseShared(int arg);
 <p>由上面代码可以看到在任务没有完成时，任何调用tryAcquireShared（FutureTask.get会调用此方法）的线程都会阻塞；tryReleaseShared永远返回true。</p>
 
 <p>任务执行完成后，会将state设置成2（正常完成或者出现异常）或者4（任务被取消）：innerIsDone方法在这两种情况下都会返回true。</p>
-</div>
+]]></content>
+  </entry>
   
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
-<aside class="sidebar">
-  
-    <section>
-  <h1>About Me</h1>
-  <p>Coder, focus on server end programming.</p>
-  <p>Email: jzhihui521@gmail.com</p>
-</section>
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/08/31/java-concurrent-source-code-reading-1/">Java并发源码分析 - 锁</a>
-      </li>
-    
-  </ul>
-</section>
-<section>
-<h1>Categories</h1>
-<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 160.0%'>concurrent(1)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(1)</a> <a href='/blog/categories/lock/' style='font-size: 160.0%'>lock(1)</a> </span>
-</section>
-<section id="comment_sidebar">
-<h1>Recent Comments</h1>
-
-<script type="text/javascript"
-    src="http://onlychoice.disqus.com/recent_comments_widget.js?num_items=5&hide_avatars=0&avatar_size=32&excerpt_length=20"></script><a
-    href="http://disqus.com/">Powered by Disqus</a>
-
-</section>
-
-  
-</aside>
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Zhihui Jiao -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-<script type="text/javascript">
-      var disqus_shortname = 'onlychoice';
-      
-        
-        var disqus_script = 'count.js';
-      
-    (function () {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    }());
-</script>
-
-
-
-
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = '//platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
-
-
-
-</body>
-</html>
+</feed>
