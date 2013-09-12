@@ -182,7 +182,15 @@
 
 <h4>等待队列的管理</h4>
 
-<p>AQS使用CLH队列的变种来管理等待线程：每个等待线程为一个结点（AbstractQueuedSynchronizer.Node）。后文会混用结点和线程。</p>
+<p>AQS使用CLH队列的变种来管理等待线程，每个等待线程为一个结点（AbstractQueuedSynchronizer.Node），后文会混用结点和线程。</p>
+
+<p>CLH队列中结点之间并不存在实际的连接，后继结点在等待锁的时候只是在前续结点的状态字段上自旋，直到获取锁。<a href="http://gee.cs.oswego.edu/dl/papers/aqs.pdf" title="The java.util.concurrent Synchronizer Framework">论文</a>对AQS使用prev及next字段的解释是：</p>
+
+<blockquote><ol>
+<li>prev主要为了完成超时及取消语义：如果前继结点取消，那么就是向前找到一个未取消的前继结点；</li>
+<li>next的主要作用在于优化后继结点的查找，避免每次都需要从tail结点向前反向查找。</li>
+</ol>
+</blockquote>
 
 <h4>线程的阻塞和唤醒</h4>
 
@@ -650,7 +658,7 @@ public final boolean releaseShared(int arg);
 </pre>
 
 
-<p>可以看到，在初始情况下，所有的tryAcquireShared（CountDownLatch.await会调用此方法）都会阻塞（getState == count，不为0）；每一次的tryReleaseShared（CountDownLatch.countDown会调用此方法）将count减1，直到为0并且会返回true（nextc == 0），这时acquireShared会调用doReleaseShared唤醒被阻塞的线程（这时getState == 0）。</p>
+<p>可以看到，在初始情况下，所有的tryAcquireShared（CountDownLatch.await会调用此方法）都会阻塞（getState == count，不为0）；每一次的tryReleaseShared（CountDownLatch.countDown会调用此方法）将count减1，直到为0并且会返回true（nextc == 0），这时acquireShared会调用doReleaseShared唤醒被阻塞的线程（getState == 0保证tryAcquireShared肯定会成功）。</p>
 
 <h3>FutureTask</h3>
 
