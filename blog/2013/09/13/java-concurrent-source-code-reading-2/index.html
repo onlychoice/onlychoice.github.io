@@ -338,7 +338,7 @@
 </pre>
 
 
-<p>去除了状态检查的相关代码后，核心的逻辑如下：在需要清理<a href="#timeout">超时</a>的情况下调用BlockingQueue.poll来获取任务，如果在超时后还没有任务，则让相应的worker线程退出；如果不需要处理超时时候，调用BlockingQueue.take，阻塞当前worker线程一直到有任务到达。</p>
+<p>去除了状态检查的相关代码后，核心的逻辑如下：在需要处理<a href="#timeout">超时</a>的情况下调用BlockingQueue.poll来获取任务，如果在超时后还没有任务，则让相应的worker线程退出；如果不需要处理超时时候，调用BlockingQueue.take，阻塞当前worker线程一直到有任务到达。</p>
 
 <h3>总结</h3>
 
@@ -401,6 +401,8 @@
         <a class="basic-alignment left" href="/blog/2013/08/31/java-concurrent-source-code-reading-1/" title="Previous Post: Java并发源码分析 - 锁">&laquo; Java并发源码分析 - 锁</a>
       
       
+        <a class="basic-alignment right" href="/blog/2013/09/17/java-concurrent-source-code-reading-3/" title="Next Post: Java并发源码分析 - ForkJoin框架">Java并发源码分析 - ForkJoin框架 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -420,6 +422,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/09/17/java-concurrent-source-code-reading-3/">Java并发源码分析 - ForkJoin框架</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/13/java-concurrent-source-code-reading-2/">Java并发源码分析 - ThreadPoolExecutor</a>
       </li>
     
@@ -431,7 +437,7 @@
 </section>
 <section>
 <h1>Categories</h1>
-<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 160.0%'>concurrent(2)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(2)</a> <a href='/blog/categories/lock/' style='font-size: 130.0%'>lock(1)</a> </span>
+<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 160.0%'>concurrent(3)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(3)</a> <a href='/blog/categories/lock/' style='font-size: 120.0%'>lock(1)</a> </span>
 </section>
 <section id="comment_sidebar">
 <h1>Recent Comments</h1>
