@@ -4,7 +4,7 @@
   <title><![CDATA[Category: lock | SHOW ME THE CODE]]></title>
   <link href="http://onlychoice.github.io/blog/categories/lock/atom.xml" rel="self"/>
   <link href="http://onlychoice.github.io/"/>
-  <updated>2013-10-03T17:08:31+08:00</updated>
+  <updated>2013-10-04T17:11:47+08:00</updated>
   <id>http://onlychoice.github.io/</id>
   <author>
     <name><![CDATA[Zhihui Jiao]]></name>
@@ -23,6 +23,9 @@
 <h2>基本概念</h2>
 
 <p>Java同步机制除了内置的synchronized（包含Object.wait/notify）以外，还通过concurrent包提供了多种锁，包含ReentrantLock、Semaphore、ReentrantReadWriteLock等，以及跟Object.wait/notify类似语义的Condition接口。</p>
+
+<!--more-->
+
 
 <h4>接口定义</h4>
 

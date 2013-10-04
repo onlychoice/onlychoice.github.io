@@ -4,7 +4,7 @@
   <title><![CDATA[Category: concurrent | SHOW ME THE CODE]]></title>
   <link href="http://onlychoice.github.io/blog/categories/concurrent/atom.xml" rel="self"/>
   <link href="http://onlychoice.github.io/"/>
-  <updated>2013-10-03T17:08:31+08:00</updated>
+  <updated>2013-10-04T17:11:47+08:00</updated>
   <id>http://onlychoice.github.io/</id>
   <author>
     <name><![CDATA[Zhihui Jiao]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<h2>功能</h2>
 
 <p>根据Java文档描述，ForkJoinPool中一种特殊的ExecutorService，可以执行ForkJoinTask。ForJoinTask可以在运行时Fork子任务，并join子任务的完成，本质上类似分治算法：将问题尽可能的分割，直到问题可以快速解决。对ForkJoinPool来说，与其它ExecutorService最重要的不同点是，它的工作线程会从其它工作线程的任务队列偷任务来执行。</p>
+
+<!--more-->
+
 
 <h2>实现</h2>
 
@@ -456,6 +459,9 @@ volatile写。</li>
 </ol>
 </blockquote>
 
+<!--more-->
+
+
 <h2>基本概念</h2>
 
 <h3>Core and maximum pool sizes</h3>
@@ -695,6 +701,9 @@ volatile写。</li>
 <h2>基本概念</h2>
 
 <p>Java同步机制除了内置的synchronized（包含Object.wait/notify）以外，还通过concurrent包提供了多种锁，包含ReentrantLock、Semaphore、ReentrantReadWriteLock等，以及跟Object.wait/notify类似语义的Condition接口。</p>
+
+<!--more-->
+
 
 <h4>接口定义</h4>
 
