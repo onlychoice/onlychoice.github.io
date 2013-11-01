@@ -9,7 +9,8 @@
   <meta name="author" content="Zhihui Jiao">
 
   
-  <meta name="description" content="问题 应用中有时候会有读取日志文件，并做近实时分析的需求（日志监控等）。但是使用类似Log4j的日志框架，日志文件可能会滚动：老的日志文件重命名成其它文件名（比如以日期为后缀），生成一个与老文件同名的新文件，这时候就需要读取日志文件的线程能够正确区分新老文件，并读取相应更新并且不会漏读数据。当然， &hellip;">
+  <meta name="description" content="概述 对队列系统至今出现的各种问题进行总结。这个系统主要是分为这么几个部分： RabbitMQ：消息broker；
+Proxy：架在RabbitMQ前面，主要作用是负载均衡及高可用：消息可以路由到后端多个结点，任一结点的异常不会影响客户端；并且可以让RabbitMQ更方便的进行水平扩展； &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -80,6 +81,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/30/summary-of-problems-occur-in-quueue-proxy/">队列系统问题总结</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-10-30T16:13:00+08:00" pubdate data-updated="true">Oct 30<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/10/30/summary-of-problems-occur-in-quueue-proxy/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>概述</h2>
+
+<p>对队列系统至今出现的各种问题进行总结。这个系统主要是分为这么几个部分：</p>
+
+<blockquote><ul>
+<li>RabbitMQ：消息broker；</li>
+<li>Proxy：架在RabbitMQ前面，主要作用是负载均衡及高可用：消息可以路由到后端多个结点，任一结点的异常不会影响客户端；并且可以让RabbitMQ更方便的进行水平扩展；</li>
+<li>客户端SDK：为了避免让产品方了解AMQP协议的细节（Exchange、bindings等），对标准的RabbitMQ客户端进行封装，只提供两个简单的接口：sendMessage，consumeMessage，并提供配置选项来定制客户端的行为。</li>
+</ul>
+</blockquote>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/10/30/summary-of-problems-occur-in-quueue-proxy/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -286,6 +339,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/10/30/summary-of-problems-occur-in-quueue-proxy/">队列系统问题总结</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/10/03/tailing-log-files-in-java/">Java中日志文件的读取</a>
       </li>
     
@@ -305,7 +362,7 @@
 </section>
 <section>
 <h1>Categories</h1>
-<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 145.0%'>concurrent(3)</a> <a href='/blog/categories/inode/' style='font-size: 115.0%'>inode(1)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(4)</a> <a href='/blog/categories/lock/' style='font-size: 115.0%'>lock(1)</a> </span>
+<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 145.0%'>concurrent(3)</a> <a href='/blog/categories/erlang/' style='font-size: 115.0%'>erlang(1)</a> <a href='/blog/categories/inode/' style='font-size: 115.0%'>inode(1)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(4)</a> <a href='/blog/categories/lock/' style='font-size: 115.0%'>lock(1)</a> <a href='/blog/categories/tcp/' style='font-size: 115.0%'>tcp(1)</a> </span>
 </section>
 <section id="comment_sidebar">
 <h1>Recent Comments</h1>
