@@ -5,11 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: tcp - SHOW ME THE CODE</title>
+  <title>RabbitMQ HA机制分析 - SHOW ME THE CODE</title>
   <meta name="author" content="Zhihui Jiao">
 
   
-  <meta name="description" content="Category: tcp">
+  <meta name="description" content="简介 创建HA队列 消息流程 发送消息 需要回答这么几个问题： 由哪个角色（Master or Slave）来做这件事？流程是怎么样的？
+在广播消息到多个Slave结点时，如果一个或者多个结点异常（网络延迟或者挂掉），有什么影响？
+confirm是什么时候发回的？ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://onlychoice.github.ioblog/categories/tcp">
+  <link rel="canonical" href="http://onlychoice.github.io/blog/2013/11/12/rabbitmq-ha">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/prettify.css"  rel="stylesheet" type="text/css">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -79,36 +81,143 @@
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Tcp</h1>
+    
+      <h1 class="entry-title">RabbitMQ HA机制分析</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-12T11:05:00+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2013</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><h2>简介</h2>
 
-  
-  <h2>2013</h2>
+<h2>创建HA队列</h2>
 
-<article>
-  
-<h1><a href="/blog/2013/10/30/summary-of-problems-occur-in-quueue-proxy/">队列系统问题总结</a></h1>
-<time datetime="2013-10-30T16:13:00+08:00" pubdate><span class='month'>Oct</span> <span class='day'>30</span> <span class='year'>2013</span></time>
+<h2>消息流程</h2>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/erlang/'>erlang</a>, <a class='category' href='/blog/categories/tcp/'>tcp</a></span>
-</footer>
+<h3>发送消息</h3>
 
+<p>需要回答这么几个问题：</p>
 
-</article>
+<blockquote><ul>
+<li>由哪个角色（Master or Slave）来做这件事？流程是怎么样的？</li>
+<li>在广播消息到多个Slave结点时，如果一个或者多个结点异常（网络延迟或者挂掉），有什么影响？</li>
+<li>confirm是什么时候发回的？广播到所有结点都成功后还是只是发送成功？</li>
+<li>为什么有时候confirm的时间会很长？</li>
+</ul>
+</blockquote>
 
+<p>confirm什么时候会发回？</p>
+
+<blockquote><ul>
+<li>消息已经投递到一个消费者，并且这个消息不需要ack；</li>
+<li></li>
+</ul>
+</blockquote>
+
+<h3>消费消息</h3>
+
+<blockquote><ul>
+<li>流程是怎么样的？</li>
+<li>Ack到服务器后如何处理的？</li>
+</ul>
+</blockquote>
+
+<h2>节点变化</h2>
+
+<h2>丢消息</h2>
+
+<h2>运维</h2>
+
+<h3>出现网络分区如何处理？</h3>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Zhihui Jiao</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-12T11:05:00+08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ha/'>ha</a>, <a class='category' href='/blog/categories/rabbitmq/'>rabbitmq</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+    <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+    <span class="jiathis_txt">Share: </span>
+    <a class="jiathis_button_tsina">新浪微博</a>
+    <a class="jiathis_button_twitter">Twitter</a>
+    <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1355494500088817" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/10/30/summary-of-problems-occur-in-quueue-proxy/" title="Previous Post: 队列系统问题总结">&laquo; 队列系统问题总结</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -171,7 +280,10 @@
       var disqus_shortname = 'onlychoice';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://onlychoice.github.io/blog/2013/11/12/rabbitmq-ha/';
+        var disqus_url = 'http://onlychoice.github.io/blog/2013/11/12/rabbitmq-ha/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

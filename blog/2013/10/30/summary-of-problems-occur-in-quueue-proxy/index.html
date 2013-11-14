@@ -275,6 +275,19 @@ java.lang.Thread.State: WAITING (on object monitor)
 <h3>basic.consume没有发送到HA模式下的所有结点（代码问题）</h3>
 
 <p>通过RabbitMQ的管理页面看到，建立到后端的连接，只有一个会消费消息，其它连接都没在干事。一开始怀疑客户端未发送正确发送basic.consume命令，后测试发现是Proxy在HA模式下的时候，只会将某些命令（queue.declare，exchange.declare等）发送到一个结点，但basic.consume需要发送到所有结点。</p>
+
+<p><strong>[2013.11.14更新]</strong></p>
+
+<h3>Proxy直接Crash（代码问题）</h3>
+
+<p>前一天晚上收到报警，两台机器的Proxy都挂了，上去服务器看了下，有erl_crash.dump文件，时间差不多，一个在00:10分，一个在00:12分，把dump文件拉到本地，用CrashDumpViewer查看，看到错误信息：</p>
+
+<blockquote><ul>
+<li>no more index entries in atom_tab (max=1048576)</li>
+</ul>
+</blockquote>
+
+<p>看样子像是创建了大量的atom，在CrashDumpViewer里看到大量ClientReader进程注册名的atom，但是没看到其它相应工作进程的注册名。后来反映到Proxy前面有HAProxy，是要做定期健康检查的，每次的检查都需要新建一个TCP连接，同时创建一个ClientReader进程，但是这个TCP连接会马上断开，也就是不会发送我们的期望的AMQP协议数据。看了下代码，进程注册名称的行为果然发生在进程一创建的瞬间，而不是检测到AMQP协议数据的时候，所以每次的健康检查都会导致多一个atom，前端两台HAProxy就是每次检查多出2个atom，长期运行，最终导致atom超过最大数量。</p>
 </div>
 
 
@@ -333,6 +346,8 @@ java.lang.Thread.State: WAITING (on object monitor)
         <a class="basic-alignment left" href="/blog/2013/10/03/tailing-log-files-in-java/" title="Previous Post: Java中日志文件的读取">&laquo; Java中日志文件的读取</a>
       
       
+        <a class="basic-alignment right" href="/blog/2013/11/12/rabbitmq-ha/" title="Next Post: RabbitMQ HA机制分析">RabbitMQ HA机制分析 &raquo;</a>
+      
     </p>
   </footer>
 </article>
@@ -352,6 +367,10 @@ java.lang.Thread.State: WAITING (on object monitor)
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/11/12/rabbitmq-ha/">RabbitMQ HA机制分析</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/10/30/summary-of-problems-occur-in-quueue-proxy/">队列系统问题总结</a>
       </li>
     
@@ -367,15 +386,11 @@ java.lang.Thread.State: WAITING (on object monitor)
         <a href="/blog/2013/09/13/java-concurrent-source-code-reading-2/">Java并发源码分析 - ThreadPoolExecutor</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/08/31/java-concurrent-source-code-reading-1/">Java并发源码分析 - 锁</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>Categories</h1>
-<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 145.0%'>concurrent(3)</a> <a href='/blog/categories/erlang/' style='font-size: 115.0%'>erlang(1)</a> <a href='/blog/categories/inode/' style='font-size: 115.0%'>inode(1)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(4)</a> <a href='/blog/categories/lock/' style='font-size: 115.0%'>lock(1)</a> <a href='/blog/categories/tcp/' style='font-size: 115.0%'>tcp(1)</a> </span>
+<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 145.0%'>concurrent(3)</a> <a href='/blog/categories/erlang/' style='font-size: 115.0%'>erlang(1)</a> <a href='/blog/categories/ha/' style='font-size: 115.0%'>ha(1)</a> <a href='/blog/categories/inode/' style='font-size: 115.0%'>inode(1)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(4)</a> <a href='/blog/categories/lock/' style='font-size: 115.0%'>lock(1)</a> <a href='/blog/categories/rabbitmq/' style='font-size: 115.0%'>rabbitmq(1)</a> <a href='/blog/categories/tcp/' style='font-size: 115.0%'>tcp(1)</a> </span>
 </section>
 <section id="comment_sidebar">
 <h1>Recent Comments</h1>

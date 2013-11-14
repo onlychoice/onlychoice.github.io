@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: rabbitmq | SHOW ME THE CODE]]></title>
+  <link href="http://onlychoice.github.io/blog/categories/rabbitmq/atom.xml" rel="self"/>
+  <link href="http://onlychoice.github.io/"/>
+  <updated>2013-11-14T10:55:32+08:00</updated>
+  <id>http://onlychoice.github.io/</id>
+  <author>
+    <name><![CDATA[Zhihui Jiao]]></name>
+    <email><![CDATA[jzhihui521@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[RabbitMQ HA机制分析]]></title>
+    <link href="http://onlychoice.github.io/blog/2013/11/12/rabbitmq-ha/"/>
+    <updated>2013-11-12T11:05:00+08:00</updated>
+    <id>http://onlychoice.github.io/blog/2013/11/12/rabbitmq-ha</id>
+    <content type="html"><![CDATA[<h2>简介</h2>
+
+<h2>创建HA队列</h2>
+
+<h2>消息流程</h2>
+
+<h3>发送消息</h3>
+
+<p>需要回答这么几个问题：</p>
+
+<blockquote><ul>
+<li>由哪个角色（Master or Slave）来做这件事？流程是怎么样的？</li>
+<li>在广播消息到多个Slave结点时，如果一个或者多个结点异常（网络延迟或者挂掉），有什么影响？</li>
+<li>confirm是什么时候发回的？广播到所有结点都成功后还是只是发送成功？</li>
+<li>为什么有时候confirm的时间会很长？</li>
+</ul>
+</blockquote>
+
+<p>confirm什么时候会发回？</p>
+
+<blockquote><ul>
+<li>消息已经投递到一个消费者，并且这个消息不需要ack；</li>
+<li></li>
+</ul>
+</blockquote>
+
+<h3>消费消息</h3>
+
+<blockquote><ul>
+<li>流程是怎么样的？</li>
+<li>Ack到服务器后如何处理的？</li>
+</ul>
+</blockquote>
+
+<h2>节点变化</h2>
+
+<h2>丢消息</h2>
+
+<h2>运维</h2>
+
+<h3>出现网络分区如何处理？</h3>
+]]></content>
+  </entry>
+  
+</feed>
