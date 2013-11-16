@@ -9,9 +9,7 @@
   <meta name="author" content="Zhihui Jiao">
 
   
-  <meta name="description" content="简介 创建HA队列 消息流程 发送消息 需要回答这么几个问题： 由哪个角色（Master or Slave）来做这件事？流程是怎么样的？
-在广播消息到多个Slave结点时，如果一个或者多个结点异常（网络延迟或者挂掉），有什么影响？
-confirm是什么时候发回的？ &hellip;">
+  <meta name="description" content="之前其实已经写过一篇关于RabbitMQ持久化的文章，但那篇文章侧重代码层面的写入流程，对于持久化操作何时发生以及什么时候会刷新到磁盘等问题其实都没有搞清楚，这篇文章着重于关注这些问题。 ">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -88,6 +86,49 @@ confirm是什么时候发回的？ &hellip;">
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2013/11/15/rabbitmq-persistent/">RabbitMQ持久化机制</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-15T14:29:00+08:00" pubdate data-updated="true">Nov 15<span>th</span>, 2013</time>
+        
+         | <a href="/blog/2013/11/15/rabbitmq-persistent/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>之前其实已经写过一篇关于RabbitMQ持久化的<a href="http://jzhihui.iteye.com/blog/1642324">文章</a>，但那篇文章侧重代码层面的写入流程，对于持久化操作何时发生以及什么时候会刷新到磁盘等问题其实都没有搞清楚，这篇文章着重于关注这些问题。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/15/rabbitmq-persistent/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2013/11/12/rabbitmq-ha/">RabbitMQ HA机制分析</a></h1>
     
     
@@ -115,47 +156,12 @@ confirm是什么时候发回的？ &hellip;">
 
   <div class="entry-content"><h2>简介</h2>
 
-<h2>创建HA队列</h2>
-
-<h2>消息流程</h2>
-
-<h3>发送消息</h3>
-
-<p>需要回答这么几个问题：</p>
-
-<blockquote><ul>
-<li>由哪个角色（Master or Slave）来做这件事？流程是怎么样的？</li>
-<li>在广播消息到多个Slave结点时，如果一个或者多个结点异常（网络延迟或者挂掉），有什么影响？</li>
-<li>confirm是什么时候发回的？广播到所有结点都成功后还是只是发送成功？</li>
-<li>为什么有时候confirm的时间会很长？</li>
-</ul>
-</blockquote>
-
-<p>confirm什么时候会发回？</p>
-
-<blockquote><ul>
-<li>消息已经投递到一个消费者，并且这个消息不需要ack；</li>
-<li></li>
-</ul>
-</blockquote>
-
-<h3>消费消息</h3>
-
-<blockquote><ul>
-<li>流程是怎么样的？</li>
-<li>Ack到服务器后如何处理的？</li>
-</ul>
-</blockquote>
-
-<h2>节点变化</h2>
-
-<h2>丢消息</h2>
-
-<h2>运维</h2>
-
-<h3>出现网络分区如何处理？</h3>
 </div>
   
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/11/12/rabbitmq-ha/">Read on &rarr;</a>
+    </footer>
   
 
 
@@ -418,6 +424,10 @@ confirm是什么时候发回的？ &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2013/11/15/rabbitmq-persistent/">RabbitMQ持久化机制</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/11/12/rabbitmq-ha/">RabbitMQ HA机制分析</a>
       </li>
     
@@ -433,15 +443,11 @@ confirm是什么时候发回的？ &hellip;">
         <a href="/blog/2013/09/17/java-concurrent-source-code-reading-3/">Java并发源码分析 - ForkJoin框架</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2013/09/13/java-concurrent-source-code-reading-2/">Java并发源码分析 - ThreadPoolExecutor</a>
-      </li>
-    
   </ul>
 </section>
 <section>
 <h1>Categories</h1>
-<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 145.0%'>concurrent(3)</a> <a href='/blog/categories/erlang/' style='font-size: 115.0%'>erlang(1)</a> <a href='/blog/categories/ha/' style='font-size: 115.0%'>ha(1)</a> <a href='/blog/categories/inode/' style='font-size: 115.0%'>inode(1)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(4)</a> <a href='/blog/categories/lock/' style='font-size: 115.0%'>lock(1)</a> <a href='/blog/categories/rabbitmq/' style='font-size: 115.0%'>rabbitmq(1)</a> <a href='/blog/categories/tcp/' style='font-size: 115.0%'>tcp(1)</a> </span>
+<span class='categories_tag'><a href='/blog/categories/concurrent/' style='font-size: 145.0%'>concurrent(3)</a> <a href='/blog/categories/erlang/' style='font-size: 115.0%'>erlang(1)</a> <a href='/blog/categories/ha/' style='font-size: 115.0%'>ha(1)</a> <a href='/blog/categories/inode/' style='font-size: 115.0%'>inode(1)</a> <a href='/blog/categories/java/' style='font-size: 160.0%'>java(4)</a> <a href='/blog/categories/lock/' style='font-size: 115.0%'>lock(1)</a> <a href='/blog/categories/persistent/' style='font-size: 115.0%'>persistent(1)</a> <a href='/blog/categories/rabbitmq/' style='font-size: 130.0%'>rabbitmq(2)</a> <a href='/blog/categories/tcp/' style='font-size: 115.0%'>tcp(1)</a> </span>
 </section>
 <section id="comment_sidebar">
 <h1>Recent Comments</h1>

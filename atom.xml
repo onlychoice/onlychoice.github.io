@@ -4,7 +4,7 @@
   <title><![CDATA[SHOW ME THE CODE]]></title>
   <link href="http://onlychoice.github.io/atom.xml" rel="self"/>
   <link href="http://onlychoice.github.io/"/>
-  <updated>2013-11-14T10:55:32+08:00</updated>
+  <updated>2013-11-16T23:09:55+08:00</updated>
   <id>http://onlychoice.github.io/</id>
   <author>
     <name><![CDATA[Zhihui Jiao]]></name>
@@ -14,11 +14,87 @@
 
   
   <entry>
+    <title type="html"><![CDATA[RabbitMQ持久化机制]]></title>
+    <link href="http://onlychoice.github.io/blog/2013/11/15/rabbitmq-persistent/"/>
+    <updated>2013-11-15T14:29:00+08:00</updated>
+    <id>http://onlychoice.github.io/blog/2013/11/15/rabbitmq-persistent</id>
+    <content type="html"><![CDATA[<p>之前其实已经写过一篇关于RabbitMQ持久化的<a href="http://jzhihui.iteye.com/blog/1642324">文章</a>，但那篇文章侧重代码层面的写入流程，对于持久化操作何时发生以及什么时候会刷新到磁盘等问题其实都没有搞清楚，这篇文章着重于关注这些问题。</p>
+
+<!--more-->
+
+
+<h3>消息什么时候需要持久化？</h3>
+
+<p>根据<a href="http://www.rabbitmq.com/blog/2011/01/20/rabbitmq-backing-stores-databases-and-disks/">官方博文</a>的介绍，RabbitMQ在两种情况下会将消息写入磁盘：</p>
+
+<blockquote><ol>
+<li>消息本身在publish的时候就要求消息写入磁盘；</li>
+<li>内存紧张，需要将部分内存中的消息转移到磁盘；</li>
+</ol>
+</blockquote>
+
+<h3>消息什么时候会刷到磁盘？</h3>
+
+<blockquote><ol>
+<li>写入文件前会有一个Buffer，大小为1M（1048576），数据在写入文件时，首先会写入到这个Buffer，如果Buffer已满，则会将Buffer写入到文件（未必刷到磁盘）；</li>
+<li>有个固定的刷盘时间：25ms，也就是不管Buffer满不满，每隔25ms，Buffer里的数据及未刷新到磁盘的文件内容必定会刷到磁盘；</li>
+<li>每次消息写入后，如果没有后续写入请求，则会直接将已写入的消息刷到磁盘：使用Erlang的receive x after 0来实现，只要进程的信箱里没有消息，则产生一个timeout消息，而timeout会触发刷盘操作。</li>
+</ol>
+</blockquote>
+
+<h3>消息在磁盘文件中的格式</h3>
+
+<p>消息保存于$MNESIA/msg_store_persistent/x.rdq文件中，其中x为数字编号，从1开始，每个文件最大为16M（16777216），超过这个大小会生成新的文件，文件编号加1。消息以以下格式存在于文件中：</p>
+
+<blockquote><p>&lt;&lt;Size:64, MsgId:16/binary, MsgBody>></p></blockquote>
+
+<p>MsgId为RabbitMQ通过rabbit_guid:gen()每一个消息生成的GUID，MsgBody会包含消息对应的exchange，routing_keys，消息的内容，消息对应的协议版本，消息内容格式（二进制还是其它）等等。</p>
+
+<h4>文件何时删除？</h4>
+
+<p>当所有文件中的垃圾消息（已经被删除的消息）比例大于阈值（GARBAGE_FRACTION = 0.5）时，会触发文件合并操作（至少有三个文件存在的情况下），以提高磁盘利用率。</p>
+
+<p>publish消息时写入内容，ack消息时删除内容（更新该文件的有用数据大小），当一个文件的有用数据等于0时，删除该文件。</p>
+
+<h3>消息索引什么时候需要持久化？</h3>
+
+<p>索引的持久化与消息的持久化类似，也是在两种情况下需要写入到磁盘中：要么本身需要持久化，要么因为内存紧张，需要释放部分内存。</p>
+
+<h3>消息索引什么时候会刷到磁盘？</h3>
+
+<blockquote><ol>
+<li>有个固定的刷盘时间：25ms，索引文件内容必定会刷到磁盘；</li>
+<li>每次消息（及索引）写入后，如果没有后续写入请求，则会直接将已写入的索引刷到磁盘，实现上与消息的timeout刷盘一致。</li>
+</ol>
+</blockquote>
+
+<h3>消息索引在磁盘文件中的格式</h3>
+
+<p>每个队列会对队列中的消息维护一个索引，每入队列一个消息，索引加1，索引在持久化时，以2<sup>14</sup>个（16384）entry为单位组成一个文件（Segment）。索引在写入时，未必会按序写入，为了避免过多的磁盘寻址，索引信息会首先保存在Journal文件中，当该文件中的entry数量达到65536个时，会将其中的内容写入到Segment文件中。其中Journal保存于$MNESIA/queues/md5(queueName)/journal.jif文件中，索引保存于$MNESIA/queues/md5(queueName)/x.idx文件中，其中的x为数字编号，类似于消息文件的编号。</p>
+
+<p>索引信息在Segment文件中的格式有两种：</p>
+
+<blockquote><ol>
+<li>对应publish消息：&lt;&lt;1:1, IsPersistent:1, RelSeq:14, MsgId:16/binary, Expiry:8/binary>>；</li>
+<li>对应deliver或者ack消息：&lt;&lt;01:2, RelSeq:14>>。</li>
+</ol>
+</blockquote>
+
+<h4>文件何时删除？</h4>
+
+<p>rabbit_msg_index模块为每一个Segment维护一个unacked计数，每publish一个消息加1，每ack一个消息减1，当unacked=0时，文件删除。</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[RabbitMQ HA机制分析]]></title>
     <link href="http://onlychoice.github.io/blog/2013/11/12/rabbitmq-ha/"/>
     <updated>2013-11-12T11:05:00+08:00</updated>
     <id>http://onlychoice.github.io/blog/2013/11/12/rabbitmq-ha</id>
     <content type="html"><![CDATA[<h2>简介</h2>
+
+<!--more-->
+
 
 <h2>创建HA队列</h2>
 
