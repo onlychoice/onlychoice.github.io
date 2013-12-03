@@ -173,6 +173,8 @@
 <h4>文件何时删除？</h4>
 
 <p>rabbit_msg_index模块为每一个Segment维护一个unacked计数，每publish一个消息加1，每ack一个消息减1，当unacked=0时，文件删除。</p>
+
+<p><strong>注：持久化文件的大小可通过配置参数msg_store_file_size_limit修改，journal文件中最大entry数量可通过参数queue_index_max_ journal_entries配置，具体参见<a href="http://www.rabbitmq.com/configure.html#config-items">这里</a></strong></p>
 </div>
 
 
@@ -228,7 +230,7 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/11/12/rabbitmq-ha/" title="Previous Post: RabbitMQ HA机制分析">&laquo; RabbitMQ HA机制分析</a>
+        <a class="basic-alignment left" href="/blog/2013/11/12/rabbitmq-ha/" title="Previous Post: RabbitMQ HA机制">&laquo; RabbitMQ HA机制</a>
       
       
     </p>
@@ -254,7 +256,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/2013/11/12/rabbitmq-ha/">RabbitMQ HA机制分析</a>
+        <a href="/blog/2013/11/12/rabbitmq-ha/">RabbitMQ HA机制</a>
       </li>
     
       <li class="post">

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: persistent | SHOW ME THE CODE]]></title>
   <link href="http://onlychoice.github.io/blog/categories/persistent/atom.xml" rel="self"/>
   <link href="http://onlychoice.github.io/"/>
-  <updated>2013-11-16T23:09:55+08:00</updated>
+  <updated>2013-12-03T09:59:42+08:00</updated>
   <id>http://onlychoice.github.io/</id>
   <author>
     <name><![CDATA[Zhihui Jiao]]></name>
@@ -83,6 +83,8 @@
 <h4>文件何时删除？</h4>
 
 <p>rabbit_msg_index模块为每一个Segment维护一个unacked计数，每publish一个消息加1，每ack一个消息减1，当unacked=0时，文件删除。</p>
+
+<p><strong>注：持久化文件的大小可通过配置参数msg_store_file_size_limit修改，journal文件中最大entry数量可通过参数queue_index_max_ journal_entries配置，具体参见<a href="http://www.rabbitmq.com/configure.html#config-items">这里</a></strong></p>
 ]]></content>
   </entry>
   
